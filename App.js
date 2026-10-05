@@ -1,11 +1,55 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { PieChart } from "react-native-svg-charts";
+import { Text as TextSVG } from "react-native-svg";
 
 export default function App() {
+  const data = [30, 10, 25, 18, 17];
+  const pieData = data.map((value, index) => ({
+    value,
+    key: `${index}-${value}`,
+    svg: {
+      fill: (
+        "#" +
+        ((Math.random() * 0xffffff) << 0).toString(16) +
+        "000000"
+      ).slice(0, 7),
+    },
+  }));
+
+  const Label = ({ slices }) => {
+    return slices.map((slice, index) => {
+      const { pieCentroid, data } = slice;
+      return (
+        <TextSVG
+          key={index}
+          x={pieCentroid[0]}
+          y={pieCentroid[1]}
+          fill={(
+            "#" +
+            ((Math.random() * 0xffffff) << 0).toString(16) +
+            "000000"
+          ).slice(0, 7)}
+          textAnchor={"middle"}
+          fontSize={25}
+          
+        >
+          {data.value}%
+        </TextSVG>
+      );
+    });
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <View>
+        <Text style={styles.textContainer}>Gráfico PieChart</Text>
+      </View>
+      <View>
+        <PieChart style={{ height: 400 }} data={pieData}>
+          <Label />
+        </PieChart>
+      </View>
     </View>
   );
 }
@@ -13,8 +57,13 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    margin: 20,
+    justifyContent: "center",
+  },
+  textContainer: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "black",
+    textAlign: "center",
   },
 });
