@@ -32,7 +32,6 @@ export default function App() {
           ).slice(0, 7)}
           textAnchor={"middle"}
           fontSize={25}
-          
         >
           {data.value}%
         </TextSVG>
